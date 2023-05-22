@@ -50,8 +50,8 @@ contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUnisw
     // -----------------------------  events ----------------------------- //
     //*********************************************************************//
 
-    event JBXBuybackDelegate_Swap(uint256 projectId, uint256 amountEth, uint256 amountOut);
-    event JBXBuybackDelegate_Mint(uint256 projectId);
+    event JBXBuybackDelegateSwap(uint256 projectId, uint256 amountEth, uint256 amountOut);
+    event JBXBuybackDelegateMint(uint256 projectId);
 
     //*********************************************************************//
     // --------------------- private constant properties ----------------- //
@@ -322,7 +322,7 @@ contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUnisw
             }
         }
 
-        emit JBXBuybackDelegate_Swap(_data.projectId, _data.amount.value, _amountReceived);
+        emit JBXBuybackDelegateSwap(_data.projectId, _data.amount.value, _amountReceived);
     }
 
     /**
@@ -349,7 +349,7 @@ contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUnisw
             _data.projectId, _data.amount.value, JBTokens.ETH, "", new bytes(0)
         );
 
-        emit JBXBuybackDelegate_Mint(_data.projectId);
+        emit JBXBuybackDelegateMint(_data.projectId);
     }
 
     //*********************************************************************//
