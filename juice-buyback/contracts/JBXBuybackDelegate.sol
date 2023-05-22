@@ -14,6 +14,7 @@ import "@jbx-protocol/juice-contracts-v3/contracts/structs/JBPayParamsData.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/interfaces/IERC20.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; 
 
 import "@paulrberg/contracts/math/PRBMath.sol";
 
@@ -36,7 +37,7 @@ import "./interfaces/external/IWETH9.sol";
  *         liquidity, this delegate needs to be redeployed.
  */
 
-contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUniswapV3SwapCallback, Ownable {
+contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUniswapV3SwapCallback, Ownable, ReentrancyGuard {
     using JBFundingCycleMetadataResolver for JBFundingCycle;
 
     //*********************************************************************//
@@ -180,7 +181,7 @@ contract JBXBuybackDelegate is IJBFundingCycleDataSource, IJBPayDelegate, IUnisw
      *
      * @param _data the delegate data passed by the terminal
      */
-    function didPay(JBDidPayData calldata _data) external payable override {
+    function didPay(JBDidPayData calldata _data) external payable override nonReentrant{
         // Access control as minting is authorized to this delegate
         if (msg.sender != address(jbxTerminal)) revert JuiceBuyback_Unauthorized();
 
